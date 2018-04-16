@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>MySite</title>
+
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+	{% load static %}
+    <link href="{% static 'list/style.css' %}" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+
+{% if form.errors %}
+	<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% endif %}
+{% endif %}
+
+	<div class="container">
+		<div class="top">
+            <h1 id="title" class="hidden"><span id="logo">Book<span>Buzzz</span></span></h1>
+		</div>
+		<form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+		<div class="login-box animated fadeInUp">
+			<div class="box-header">
+                <h2>LogIn |<a href="{% url 'signup' %}">| Signup</a></h2>
+			</div>
+			<label for="username">{{ form.username.label_tag }}</label>
+			<br/>
+			{{ form.username }}
+			<br/>
+			<label for="password">{{ form.password.label_tag }}</label>
+			<br/>
+			{{ form.password }}
+			<br/>
+			<button type="submit">Read Me</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="{% url 'social:begin' 'google-oauth2' %}">Google</a>
+            <input type="hidden" name="next" value="{{ next }}" />
+            <br><br>
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+		</div>
+		</form>
+	</div>
+</body>
+
+<script>
+	$(document).ready(function () {
+    	$('#logo').addClass('animated fadeInDown');
+    	$("input:text:visible:first").focus();
+	});
+	$('#username').focus(function() {
+		$('label[for="username"]').addClass('selected');
+	});
+	$('#username').blur(function() {
+		$('label[for="username"]').removeClass('selected');
+	});
+	$('#password').focus(function() {
+		$('label[for="password"]').addClass('selected');
+	});
+	$('#password').blur(function() {
+		$('label[for="password"]').removeClass('selected');
+	});
+</script>
+
+</html>

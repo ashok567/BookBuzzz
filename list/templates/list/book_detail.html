@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <h1>Title: {{ book.title }}</h1>
+
+  <p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p>
+  <p><strong>Summary:</strong> {{ book.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <a href="{% url 'book_update' book.pk %}">Update</a>&nbsp;&nbsp;<a href="{% url 'book_delete' book.pk %}">Delete</a>&nbsp;&nbsp;
+  <a href="{% url 'download' book.pk %}">Preview</a>&nbsp;&nbsp;<a href="{% static 'list/books/'|add:book.title|add:'.pdf' %}">Download</a>&nbsp;&nbsp;<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><strong>f</strong>Share</a>
+
+
+
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h3>Copies</h3>
+	{% if book.bookinstance_set.all%}
+    {% for copy in book.bookinstance_set.all %}
+    <hr>
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+    {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
+    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+    <a href="{% url 'renew-book' copy.id %}">Renew</a>
+    {% endfor %}
+    {%else %}<p>No Copies are available</p>
+    {% endif %}
+
+  </div>
+{% endblock %}
