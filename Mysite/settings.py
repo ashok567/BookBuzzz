@@ -149,8 +149,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Z_k_DNDyrGzqUNkSBG5XNNsV'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'rajtlega@gmail.com'
-EMAIL_HOST_PASSWORD = 'ashok12345'
+EMAIL_HOST_USER = 'Email Id'
+EMAIL_HOST_PASSWORD = 'Password'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'LocalLibrary Team <noreply@example.com>'
 
